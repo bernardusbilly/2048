@@ -118,6 +118,16 @@ public class Board {
 		return totalScore;
 	}
 
+	public int squareScore() {
+		int squareScore = 0;
+		for (int j = 0; j < size; j++) {
+			for (int i = 0; i < size; i++) {
+				squareScore += board[i][j]*board[i][j];
+			}
+		}
+		return squareScore;
+	}
+
 	public String toString() {
 		for (j = 0; j < size; j++) {
 			for (i = 0; i < size; i++) {
