@@ -58,6 +58,80 @@ public class Board {
 		return temp;
 	}
 
+	public void generateRandom() {
+		int x, y;
+		// Find an element for a number to be placed
+		do {
+			x = randomWithRange(0, size-1);
+			y = randomWithRange(0, size-1);
+		} while(board[x][y] != 0);
+
+		board[x][y] = random(2, 4, 90);
+	}
+
+
+	/**
+	 * This function does not change the original board
+	 * @return (boolean) whether it can move to the directed move or not
+	*/
+	public boolean tryMoveUp() {
+		Board tempBoard = copy();
+		return tempBoard.moveUp();
+	}
+	public boolean tryMoveRight() {
+		Board tempBoard = copy();
+		return tempBoard.moveRight();
+	}
+	public boolean tryMoveDown() {
+		Board tempBoard = copy();
+		return tempBoard.moveDown();
+	}
+	public boolean tryMoveLeft() {
+		Board tempBoard = copy();
+		return tempBoard.moveLeft();
+	}
+
+	public int getEmpty () {
+		int counter = 0;
+		for (int j = 0; j < size; j++) {
+			for (int i = 0; i < size; i++) {
+				if (board[i][j] == 0) {
+					counter++;
+				}
+			}
+		}
+		return counter;
+	}
+
+	public void move(int direction) {
+		if (direction == 1) {
+			moveUp();
+		} else if (direction == 2) {
+			moveRight();
+		} else if (direction == 3) {
+			moveDown();
+		} else if (direction == 4) {
+			moveLeft();
+		} else {
+			System.out.println("Invalid move order.");
+		}
+	}
+
+	public boolean tryMove(int direction) {
+		if (direction == 1) {
+			return tryMoveUp();
+		} else if (direction == 2) {
+			return tryMoveRight();
+		} else if (direction == 3) {
+			return tryMoveDown();
+		} else if (direction == 4) {
+			return tryMoveLeft();
+		} else {
+			System.out.println("Invalid tryMove order.");
+		}
+		return false;
+	}
+
 	public void setNumber (int val, int x, int y) {
 		board[x][y] = val;
 	}
@@ -365,5 +439,39 @@ public class Board {
 			return true;
 		}
 	}
-	
+
+	/**
+   	* Helper function to make a random integer between the two given value, 
+   	* with one more input value as the percentage of occurance for the first number
+   	*
+   	* @param (int) i1 the first value that want to be chosen
+   	* @param (int) i2 the second value that want to be chosen
+   	* @param (int) p the percentage for the first item to appear (1-99)
+   	* @return (int) a random integer number between the two number
+   	*/
+  	private static int random(int i1, int i2, int p) {
+    	int temp = (int)(Math.random() * 100);
+    	if ((p > 0) && (p < 100)) {
+    		// value of p is good
+    	} else {
+    		System.out.println("Error: percentage value must be an integer between 1-99. Default percentage is chosen!");
+    		p = 10;
+    	}
+
+    	if (temp < p) {
+    		return i1;
+    	} else {
+    		return i2;
+    	}
+  	}
+
+  	/**
+   	* Helper function to make a random integer value in a given range
+   	*
+   	* @return (int) a random integer number between the given range
+   	*/
+  	private static int randomWithRange(int min, int max) {
+    	int range = Math.abs(max - min) + 1;     
+    	return (int)(Math.random() * range) + (min <= max ? min : max);
+  	}
 }
