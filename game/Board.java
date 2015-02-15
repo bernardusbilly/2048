@@ -48,6 +48,10 @@ public class Board {
 		}
 	}
 
+	public int size() {
+		return size;
+	}
+
 	public Board copy() {
 	 	Board temp = new Board();
 	 	for (int j = 0; j < size; j++) {

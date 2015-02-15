@@ -5,7 +5,7 @@ package game;
 public class AI {
 
 	private Board board;
-    private static final int depth = 1;
+    private static final int depth = 5;
 
     /**
      * Given the board condition and a search depth, return a Move object
@@ -99,21 +99,45 @@ public class AI {
         int tryMove = 0;
         Move move;
 
-        if (depth == 0) {
-            return board.squareScore();
-        } 
+        int approxScore = 0;
+        int numEmptySlot = board.getEmpty();
 
-        // for each possibleMove
-        for (int i = 1; i <= 4; i++) {
-            // System.out.println(board.tryMove(i));
-            if (board.tryMove(i)) {
-                tryMove++;
-                tempBoard = board.copy();
-                tempBoard.move(i);
-                totalScore += measureScore(tempBoard, depth-1);
-                //tempBoard.squareScore();
-            }
+        if (depth <= 0) {
+            return board.squareScore();
+        } else {
+            for (int i = 0; i < board.size(); i++) {
+                for (int j = 0; j < board.size(); j++) {
+                    if (board.element(i,j) == 0) {
+                        tempBoard = board.copy();
+                        tempBoard.setNumber(2, i, j); // 9/10 will occur 2
+
+                        // for each possibleMove
+                        for (int k = 1; k <= 4; k++) {
+                            // System.out.println(board.tryMove(i));
+                            if (tempBoard.tryMove(k)) {
+                                tryMove++;
+                                tempBoard.move(k);
+                                // performace improvisation
+                                if (board.getEmpty() >= 12) {
+                                    totalScore += measureScore(tempBoard, depth-4);    
+                                } else if (board.getEmpty() >= 8) {
+                                    totalScore += measureScore(tempBoard, depth-3);
+                                } else if (board.getEmpty() >= 4) {
+                                    totalScore += measureScore(tempBoard, depth-2);
+                                } else {
+                                    totalScore += measureScore(tempBoard, depth-1);
+                                }
+                                
+                                //tempBoard.squareScore();
+                            }
+                        }
+                    }
+                }
+            }    
         }
+        
+
+        
         if (tryMove == 0) {
             return 0;
         } else {

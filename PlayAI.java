@@ -65,7 +65,7 @@ public class PlayAI {
 				System.out.println("- 1024: " + goal1024);
 				System.out.println("- 512 : " + goal512);
 
-				// return;
+				//return;
 
 				// repeat the game
 				board = new Board();
@@ -74,6 +74,7 @@ public class PlayAI {
 
 			move = AI.chooseMove(board);
 			command = move.toString();
+			//board.toString();
 
 			while (true) {
 				if ((command.equals("up")) && board.tryMoveUp()) {
